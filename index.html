@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Notas</title>
+    <style>
+        * {
+            box-sizing: border-box;
+        }
+
+        html,
+        body {
+            margin: 0;
+            padding: 0;
+            width: 100%;
+            height: 100%;
+            background: #ffffff;
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+        }
+
+        body {
+            overflow: hidden;
+        }
+
+        #editor {
+            width: 100%;
+            height: 100%;
+            border: none;
+            outline: none;
+            resize: none;
+            background: transparent;
+            appearance: none;
+            -webkit-appearance: none;
+
+            padding: 56px 64px;
+            font-size: 20px;
+            line-height: 1.7;
+            color: #111111;
+
+            white-space: pre-wrap;
+            overflow-wrap: break-word;
+        }
+
+        #editor::placeholder {
+            color: #b8b8b8;
+        }
+
+        @media (max-width: 768px) {
+            #editor {
+                padding: 32px 24px;
+                font-size: 18px;
+                line-height: 1.6;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <textarea id="editor" spellcheck="false" placeholder="Escribe aquí..."></textarea>
+
+    <script>
+        const editor = document.getElementById("editor");
+        const STORAGE_KEY = "notas_blancas_editor";
+
+        const savedText = localStorage.getItem(STORAGE_KEY);
+        if (savedText !== null) {
+            editor.value = savedText;
+        }
+
+        editor.addEventListener("input", () => {
+            localStorage.setItem(STORAGE_KEY, editor.value);
+        });
+
+        window.addEventListener("load", () => {
+            editor.focus();
+            const length = editor.value.length;
+            editor.setSelectionRange(length, length);
+        });
+    </script>
+</body>
+
+</html>

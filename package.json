@@ -1,0 +1,17 @@
+{
+  "name": "paginablanca",
+  "version": "1.0.0",
+  "description": "Pagina en blanco para blog de notas en navegador",
+  "keywords": [
+    "bog",
+    "notes",
+    "text"
+  ],
+  "license": "MIT",
+  "author": "PedroPab",
+  "type": "commonjs",
+  "main": "index.html",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  }
+}
