@@ -21,6 +21,19 @@
             </svg>
             <span id="trash-badge" hidden></span>
         </button>
+        <input type="file" id="import-input" accept=".txt" hidden>
+        <button id="import-btn" title="Importar archivo de texto">
+            <svg width="13" height="13" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M8 2v9M4.5 7.5L8 11l3.5-3.5"/>
+                <path d="M3 13h10"/>
+            </svg>
+        </button>
+        <button id="export-btn" title="Exportar pestaña como .txt">
+            <svg width="13" height="13" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M8 11V2M4.5 5.5L8 2l3.5 3.5"/>
+                <path d="M3 13h10"/>
+            </svg>
+        </button>
         <button id="preview-toggle" title="Alternar vista previa (Ctrl+P)">Preview</button>
     </div>
     <textarea id="editor" spellcheck="false" placeholder="Escribe aquí..."></textarea>

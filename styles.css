@@ -183,6 +183,33 @@ body {
     border-color: #ccc;
 }
 
+#import-btn,
+#export-btn {
+    margin-left: 4px;
+    align-self: flex-end;
+    margin-bottom: 3px;
+    flex-shrink: 0;
+    width: 28px;
+    height: 26px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #aaa;
+    background: transparent;
+    border: 1px solid #e8e8e8;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background 0.1s, color 0.1s, border-color 0.1s;
+    padding: 0;
+}
+
+#import-btn:hover,
+#export-btn:hover {
+    background: #f0f0f0;
+    color: #555;
+    border-color: #ccc;
+}
+
 #trash-badge {
     position: absolute;
     top: -5px;

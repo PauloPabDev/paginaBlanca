@@ -401,6 +401,51 @@ trashBtn.addEventListener('click', openTrashModal);
 trashModal.querySelector('.trash-overlay').addEventListener('click', closeTrashModal);
 trashModal.querySelector('.trash-close-btn').addEventListener('click', closeTrashModal);
 
+// ── Exportar / Importar ───────────────────────────────────────────────────────
+
+function exportCurrentTab() {
+    const tab = tabs.find(t => t.id === activeId);
+    if (!tab) return;
+    const content = editor.value;
+    const filename = (tab.name.trim() || 'Sin título') + '.txt';
+    const blob = new Blob([content], { type: 'text/plain' });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = filename;
+    a.click();
+    URL.revokeObjectURL(url);
+}
+
+function importTextFile(file) {
+    if (!file) return;
+    const reader = new FileReader();
+    reader.onload = e => {
+        const cur = tabs.find(t => t.id === activeId);
+        if (cur) cur.content = editor.value;
+        const name = file.name.replace(/\.txt$/i, '');
+        const tab = { id: uid(), name, content: e.target.result };
+        tabs.push(tab);
+        activeId = tab.id;
+        editor.value = tab.content;
+        save();
+        render();
+        editor.focus();
+    };
+    reader.readAsText(file, 'UTF-8');
+}
+
+const exportBtn = document.getElementById('export-btn');
+const importBtn = document.getElementById('import-btn');
+const importInput = document.getElementById('import-input');
+
+exportBtn.addEventListener('click', exportCurrentTab);
+importBtn.addEventListener('click', () => importInput.click());
+importInput.addEventListener('change', e => {
+    importTextFile(e.target.files[0]);
+    importInput.value = '';
+});
+
 // ── Preview ──────────────────────────────────────────────────────────────────
 
 const previewMode = {};
