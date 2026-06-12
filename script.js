@@ -446,6 +446,19 @@ importInput.addEventListener('change', e => {
     importInput.value = '';
 });
 
+// ── Tema ──────────────────────────────────────────────────────────────────────
+
+const THEME_KEY = 'notas_blancas_theme';
+const themeBtn = document.getElementById('theme-btn');
+
+function toggleTheme() {
+    const next = document.documentElement.dataset.theme === 'dark' ? 'light' : 'dark';
+    document.documentElement.dataset.theme = next;
+    localStorage.setItem(THEME_KEY, next);
+}
+
+themeBtn.addEventListener('click', toggleTheme);
+
 // ── Preview ──────────────────────────────────────────────────────────────────
 
 const previewMode = {};

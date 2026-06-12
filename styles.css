@@ -2,13 +2,67 @@
     box-sizing: border-box;
 }
 
+:root {
+    --bg: #ffffff;
+    --bg-subtle: #fafafa;
+    --bg-hover: #f0f0f0;
+    --border: #e8e8e8;
+    --border-muted: #e0e0e0;
+    --text: #111111;
+    --text-2: #555555;
+    --text-3: #999999;
+    --text-4: #aaaaaa;
+    --text-5: #bbbbbb;
+    --text-6: #cccccc;
+    --text-placeholder: #b8b8b8;
+    --text-dim: #666666;
+    --text-strong: #222222;
+    --badge-bg: rgb(126, 126, 126);
+    --overlay: rgba(0, 0, 0, 0.2);
+    --code-bg: #f3f3f3;
+    --pre-bg: #f5f5f5;
+    --link: #0070f3;
+    --toggle-active-bg: #111111;
+    --toggle-active-text: #ffffff;
+    --danger: #cc3333;
+    --danger-bg: #fff0f0;
+    --danger-border: #f0c0c0;
+}
+
+[data-theme="dark"] {
+    --bg: #1a1a1a;
+    --bg-subtle: #222222;
+    --bg-hover: #2d2d2d;
+    --border: #303030;
+    --border-muted: #3a3a3a;
+    --text: #e4e4e4;
+    --text-2: #b0b0b0;
+    --text-3: #787878;
+    --text-4: #606060;
+    --text-5: #4a4a4a;
+    --text-6: #444444;
+    --text-placeholder: #404040;
+    --text-dim: #808080;
+    --text-strong: #cccccc;
+    --badge-bg: #666666;
+    --overlay: rgba(0, 0, 0, 0.5);
+    --code-bg: #252525;
+    --pre-bg: #252525;
+    --link: #58a6ff;
+    --toggle-active-bg: #e4e4e4;
+    --toggle-active-text: #111111;
+    --danger: #e06060;
+    --danger-bg: #2a1818;
+    --danger-border: #5a3030;
+}
+
 html,
 body {
     margin: 0;
     padding: 0;
     width: 100%;
     height: 100%;
-    background: #ffffff;
+    background: var(--bg);
     font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
 }
 
@@ -22,8 +76,8 @@ body {
     display: flex;
     align-items: flex-end;
     padding: 0 8px;
-    border-bottom: 1px solid #e8e8e8;
-    background: #fafafa;
+    border-bottom: 1px solid var(--border);
+    background: var(--bg-subtle);
     gap: 2px;
     flex-shrink: 0;
     height: 40px;
@@ -47,7 +101,7 @@ body {
     border-radius: 6px 6px 0 0;
     cursor: pointer;
     font-size: 13px;
-    color: #999;
+    color: var(--text-3);
     white-space: nowrap;
     max-width: 180px;
     min-width: 80px;
@@ -57,14 +111,14 @@ body {
 }
 
 .tab:hover {
-    background: #f0f0f0;
-    color: #555;
+    background: var(--bg-hover);
+    color: var(--text-2);
 }
 
 .tab.active {
-    background: #ffffff;
-    border-color: #e8e8e8;
-    color: #111;
+    background: var(--bg);
+    border-color: var(--border);
+    color: var(--text);
     margin-bottom: -1px;
 }
 
@@ -84,7 +138,7 @@ body {
     width: 100%;
     min-width: 0;
     padding: 0;
-    caret-color: #555;
+    caret-color: var(--text-2);
 }
 
 .tab-close {
@@ -103,12 +157,12 @@ body {
 
 .tab:hover .tab-close,
 .tab.active .tab-close {
-    color: #bbb;
+    color: var(--text-5);
 }
 
 .tab-close:hover {
-    background: #e0e0e0;
-    color: #555 !important;
+    background: var(--border-muted);
+    color: var(--text-2) !important;
 }
 
 #new-tab-btn {
@@ -119,7 +173,7 @@ body {
     justify-content: center;
     border-radius: 4px;
     cursor: pointer;
-    color: #bbb;
+    color: var(--text-5);
     font-size: 20px;
     line-height: 1;
     flex-shrink: 0;
@@ -131,8 +185,8 @@ body {
 }
 
 #new-tab-btn:hover {
-    background: #eeeeee;
-    color: #555;
+    background: var(--bg-hover);
+    color: var(--text-2);
 }
 
 #editor {
@@ -146,13 +200,13 @@ body {
     padding: 56px 64px;
     font-size: 20px;
     line-height: 1.7;
-    color: #111111;
+    color: var(--text);
     white-space: pre-wrap;
     overflow-wrap: break-word;
 }
 
 #editor::placeholder {
-    color: #b8b8b8;
+    color: var(--text-placeholder);
 }
 
 #trash-btn {
@@ -167,9 +221,9 @@ body {
     align-items: center;
     justify-content: center;
     font-family: inherit;
-    color: #aaa;
+    color: var(--text-4);
     background: transparent;
-    border: 1px solid #e8e8e8;
+    border: 1px solid var(--border);
     border-radius: 4px;
     cursor: pointer;
     transition: background 0.1s, color 0.1s, border-color 0.1s;
@@ -178,9 +232,9 @@ body {
 }
 
 #trash-btn:hover {
-    background: #f0f0f0;
-    color: #555;
-    border-color: #ccc;
+    background: var(--bg-hover);
+    color: var(--text-2);
+    border-color: var(--border-muted);
 }
 
 #import-btn,
@@ -194,9 +248,9 @@ body {
     display: flex;
     align-items: center;
     justify-content: center;
-    color: #aaa;
+    color: var(--text-4);
     background: transparent;
-    border: 1px solid #e8e8e8;
+    border: 1px solid var(--border);
     border-radius: 4px;
     cursor: pointer;
     transition: background 0.1s, color 0.1s, border-color 0.1s;
@@ -205,16 +259,16 @@ body {
 
 #import-btn:hover,
 #export-btn:hover {
-    background: #f0f0f0;
-    color: #555;
-    border-color: #ccc;
+    background: var(--bg-hover);
+    color: var(--text-2);
+    border-color: var(--border-muted);
 }
 
 #trash-badge {
     position: absolute;
     top: -5px;
     right: -5px;
-    background: rgb(126, 126, 126);
+    background: var(--badge-bg);
     color: #fff;
     font-size: 9px;
     font-weight: 700;
@@ -226,6 +280,35 @@ body {
     pointer-events: none;
 }
 
+#theme-btn {
+    margin-left: 4px;
+    align-self: flex-end;
+    margin-bottom: 3px;
+    flex-shrink: 0;
+    width: 28px;
+    height: 26px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--text-4);
+    background: transparent;
+    border: 1px solid var(--border);
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background 0.1s, color 0.1s, border-color 0.1s;
+    padding: 0;
+}
+
+#theme-btn:hover {
+    background: var(--bg-hover);
+    color: var(--text-2);
+    border-color: var(--border-muted);
+}
+
+.theme-icon-sun { display: none; }
+[data-theme="dark"] .theme-icon-sun { display: block; }
+[data-theme="dark"] .theme-icon-moon { display: none; }
+
 #preview-toggle {
     margin-left: 4px;
     margin-right: 4px;
@@ -236,9 +319,9 @@ body {
     padding: 0 10px;
     font-size: 12px;
     font-family: inherit;
-    color: #999;
+    color: var(--text-3);
     background: transparent;
-    border: 1px solid #e0e0e0;
+    border: 1px solid var(--border-muted);
     border-radius: 4px;
     cursor: pointer;
     transition: background 0.1s, color 0.1s, border-color 0.1s;
@@ -246,15 +329,15 @@ body {
 }
 
 #preview-toggle:hover {
-    background: #f0f0f0;
-    color: #555;
-    border-color: #ccc;
+    background: var(--bg-hover);
+    color: var(--text-2);
+    border-color: var(--border-muted);
 }
 
 #preview-toggle.active {
-    background: #111;
-    color: #fff;
-    border-color: #111;
+    background: var(--toggle-active-bg);
+    color: var(--toggle-active-text);
+    border-color: var(--toggle-active-bg);
 }
 
 #preview {
@@ -262,7 +345,7 @@ body {
     padding: 56px 64px;
     font-size: 20px;
     line-height: 1.7;
-    color: #111;
+    color: var(--text);
     overflow-y: auto;
     font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
 }
@@ -280,18 +363,18 @@ body {
 
 #preview p { margin: 0.6em 0; }
 
-#preview a { color: #0070f3; text-decoration: underline; }
+#preview a { color: var(--link); text-decoration: underline; }
 
 #preview code {
     font-family: "SFMono-Regular", Consolas, monospace;
     font-size: 0.85em;
-    background: #f3f3f3;
+    background: var(--code-bg);
     padding: 2px 5px;
     border-radius: 3px;
 }
 
 #preview pre {
-    background: #f5f5f5;
+    background: var(--pre-bg);
     border-radius: 6px;
     padding: 16px;
     overflow-x: auto;
@@ -304,10 +387,10 @@ body {
 }
 
 #preview blockquote {
-    border-left: 3px solid #ddd;
+    border-left: 3px solid var(--border-muted);
     margin: 0.8em 0;
     padding-left: 1em;
-    color: #666;
+    color: var(--text-dim);
 }
 
 #preview ul, #preview ol {
@@ -324,16 +407,16 @@ body {
 }
 
 #preview th, #preview td {
-    border: 1px solid #e0e0e0;
+    border: 1px solid var(--border-muted);
     padding: 6px 12px;
     text-align: left;
 }
 
-#preview th { background: #f5f5f5; font-weight: 600; }
+#preview th { background: var(--pre-bg); font-weight: 600; }
 
 #preview hr {
     border: none;
-    border-top: 1px solid #e0e0e0;
+    border-top: 1px solid var(--border-muted);
     margin: 1.5em 0;
 }
 
@@ -342,8 +425,8 @@ body {
 #snippet-menu {
     position: fixed;
     z-index: 200;
-    background: #fff;
-    border: 1px solid #e0e0e0;
+    background: var(--bg);
+    border: 1px solid var(--border-muted);
     border-radius: 6px;
     box-shadow: 0 4px 16px rgba(0,0,0,0.1);
     min-width: 200px;
@@ -359,13 +442,13 @@ body {
     gap: 10px;
     padding: 7px 12px;
     cursor: pointer;
-    color: #333;
+    color: var(--text);
     transition: background 0.08s;
 }
 
 .snippet-item:hover,
 .snippet-item.selected {
-    background: #f0f0f0;
+    background: var(--bg-hover);
 }
 
 .snippet-item .snippet-label {
@@ -374,7 +457,7 @@ body {
 }
 
 .snippet-item .snippet-hint {
-    color: #aaa;
+    color: var(--text-4);
     font-size: 11px;
     overflow: hidden;
     text-overflow: ellipsis;
@@ -399,12 +482,12 @@ body {
 .trash-overlay {
     position: absolute;
     inset: 0;
-    background: rgba(0, 0, 0, 0.2);
+    background: var(--overlay);
 }
 
 .trash-panel {
     position: relative;
-    background: #fff;
+    background: var(--bg);
     border-radius: 10px;
     box-shadow: 0 8px 32px rgba(0, 0, 0, 0.14);
     width: 480px;
@@ -419,14 +502,14 @@ body {
     display: flex;
     align-items: center;
     padding: 16px 20px 14px;
-    border-bottom: 1px solid #f0f0f0;
+    border-bottom: 1px solid var(--border);
     flex-shrink: 0;
 }
 
 .trash-title {
     font-size: 14px;
     font-weight: 600;
-    color: #111;
+    color: var(--text);
     flex: 1;
 }
 
@@ -439,7 +522,7 @@ body {
     border: none;
     background: transparent;
     cursor: pointer;
-    color: #bbb;
+    color: var(--text-5);
     font-size: 18px;
     border-radius: 4px;
     padding: 0;
@@ -448,8 +531,8 @@ body {
 }
 
 .trash-close-btn:hover {
-    background: #f0f0f0;
-    color: #555;
+    background: var(--bg-hover);
+    color: var(--text-2);
 }
 
 .trash-list {
@@ -460,7 +543,7 @@ body {
 
 .trash-empty-msg {
     text-align: center;
-    color: #ccc;
+    color: var(--text-6);
     font-size: 13px;
     padding: 36px 0;
     margin: 0;
@@ -475,7 +558,7 @@ body {
 }
 
 .trash-item:hover {
-    background: #fafafa;
+    background: var(--bg-subtle);
 }
 
 .trash-item-info {
@@ -486,7 +569,7 @@ body {
 .trash-item-name {
     font-size: 13px;
     font-weight: 500;
-    color: #222;
+    color: var(--text-strong);
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
@@ -494,7 +577,7 @@ body {
 
 .trash-item-preview {
     font-size: 12px;
-    color: #bbb;
+    color: var(--text-5);
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
@@ -503,7 +586,7 @@ body {
 
 .trash-item-date {
     font-size: 11px;
-    color: #ccc;
+    color: var(--text-6);
     margin-top: 3px;
 }
 
@@ -517,9 +600,9 @@ body {
     padding: 4px 10px;
     font-size: 12px;
     font-family: inherit;
-    color: #555;
+    color: var(--text-2);
     background: transparent;
-    border: 1px solid #e0e0e0;
+    border: 1px solid var(--border-muted);
     border-radius: 4px;
     cursor: pointer;
     white-space: nowrap;
@@ -527,8 +610,8 @@ body {
 }
 
 .trash-restore-btn:hover {
-    background: #f0f0f0;
-    border-color: #ccc;
+    background: var(--bg-hover);
+    border-color: var(--border-muted);
 }
 
 .trash-delete-btn {
@@ -539,9 +622,9 @@ body {
     justify-content: center;
     font-size: 16px;
     font-family: inherit;
-    color: #ccc;
+    color: var(--text-6);
     background: transparent;
-    border: 1px solid #e8e8e8;
+    border: 1px solid var(--border);
     border-radius: 4px;
     cursor: pointer;
     padding: 0;
@@ -549,13 +632,13 @@ body {
 }
 
 .trash-delete-btn:hover {
-    background: #fff0f0;
-    color: #c33;
-    border-color: #f0c0c0;
+    background: var(--danger-bg);
+    color: var(--danger);
+    border-color: var(--danger-border);
 }
 
 .trash-footer {
-    border-top: 1px solid #f0f0f0;
+    border-top: 1px solid var(--border);
     padding: 12px 20px;
     display: flex;
     align-items: center;
@@ -566,7 +649,7 @@ body {
 
 .trash-confirm-label {
     font-size: 12px;
-    color: #888;
+    color: var(--text-3);
     margin-right: auto;
 }
 
@@ -574,9 +657,9 @@ body {
     padding: 5px 12px;
     font-size: 12px;
     font-family: inherit;
-    color: #c33;
+    color: var(--danger);
     background: transparent;
-    border: 1px solid #f0c0c0;
+    border: 1px solid var(--danger-border);
     border-radius: 4px;
     cursor: pointer;
     transition: background 0.1s, border-color 0.1s;
@@ -584,23 +667,23 @@ body {
 
 .trash-empty-all-btn:hover,
 .trash-empty-all-btn--confirm:hover {
-    background: #fff0f0;
-    border-color: #e08080;
+    background: var(--danger-bg);
+    border-color: var(--danger-border);
 }
 
 .trash-delete-btn--confirm {
     width: auto;
     padding: 0 10px;
-    color: #c33;
-    border-color: #f0c0c0;
-    background: #fff0f0;
+    color: var(--danger);
+    border-color: var(--danger-border);
+    background: var(--danger-bg);
     font-size: 12px;
 }
 
 .trash-delete-btn--confirm:hover {
-    background: #ffe0e0;
-    color: #a00;
-    border-color: #d08080;
+    background: var(--danger-bg);
+    color: var(--danger);
+    border-color: var(--danger-border);
 }
 
 @media (max-width: 768px) {

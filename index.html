@@ -7,6 +7,13 @@
     <script defer src="https://umami.toxolinko.site/script.js" data-website-id="17f4a685-40b7-46e6-9313-a9f79d9525f4"></script>
     <title>Notas</title>
     <link rel="stylesheet" href="styles.css" />
+    <script>
+        (function () {
+            const t = localStorage.getItem('notas_blancas_theme') ||
+                (window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light');
+            document.documentElement.dataset.theme = t;
+        })();
+    </script>
     <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
 </head>
 
@@ -32,6 +39,22 @@
             <svg width="13" height="13" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
                 <path d="M8 11V2M4.5 5.5L8 2l3.5 3.5"/>
                 <path d="M3 13h10"/>
+            </svg>
+        </button>
+        <button id="theme-btn" title="Cambiar tema">
+            <svg class="theme-icon-moon" width="13" height="13" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M13.5 10.5A6 6 0 0 1 5.5 2.5a6 6 0 1 0 8 8z"/>
+            </svg>
+            <svg class="theme-icon-sun" width="13" height="13" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
+                <circle cx="8" cy="8" r="3"/>
+                <line x1="8" y1="1" x2="8" y2="3"/>
+                <line x1="8" y1="13" x2="8" y2="15"/>
+                <line x1="1" y1="8" x2="3" y2="8"/>
+                <line x1="13" y1="8" x2="15" y2="8"/>
+                <line x1="3.05" y1="3.05" x2="4.46" y2="4.46"/>
+                <line x1="11.54" y1="11.54" x2="12.95" y2="12.95"/>
+                <line x1="12.95" y1="3.05" x2="11.54" y2="4.46"/>
+                <line x1="4.46" y1="11.54" x2="3.05" y2="12.95"/>
             </svg>
         </button>
         <button id="preview-toggle" title="Alternar vista previa (Ctrl+P)">Preview</button>
