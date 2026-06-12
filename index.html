@@ -7,13 +7,17 @@
     <script defer src="https://umami.toxolinko.site/script.js" data-website-id="17f4a685-40b7-46e6-9313-a9f79d9525f4"></script>
     <title>Notas</title>
     <link rel="stylesheet" href="styles.css" />
+    <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
 </head>
 
 <body>
     <div id="tab-bar">
         <div id="new-tab-btn" title="Nueva pestaña (Ctrl+T)">+</div>
+        <button id="preview-toggle" title="Alternar vista previa (Ctrl+P)">Preview</button>
     </div>
     <textarea id="editor" spellcheck="false" placeholder="Escribe aquí..."></textarea>
+    <div id="preview" hidden></div>
+    <div id="snippet-menu" hidden></div>
     <script src="script.js"></script>
 </body>
 
