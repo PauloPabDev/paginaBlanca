@@ -124,7 +124,8 @@ body {
     line-height: 1;
     flex-shrink: 0;
     margin-left: 2px;
-    align-self: center;
+    align-self: flex-end;
+    margin-bottom: 3px;
     transition: background 0.1s, color 0.1s;
     user-select: none;
 }
@@ -157,7 +158,8 @@ body {
 #trash-btn {
     margin-left: auto;
     position: relative;
-    align-self: center;
+    align-self: flex-end;
+    margin-bottom: 3px;
     flex-shrink: 0;
     width: 28px;
     height: 26px;
@@ -200,9 +202,11 @@ body {
 #preview-toggle {
     margin-left: 4px;
     margin-right: 4px;
-    align-self: center;
+    align-self: flex-end;
+    margin-bottom: 3px;
     flex-shrink: 0;
-    padding: 4px 10px;
+    height: 26px;
+    padding: 0 10px;
     font-size: 12px;
     font-family: inherit;
     color: #999;
