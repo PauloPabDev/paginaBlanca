@@ -154,8 +154,51 @@ body {
     color: #b8b8b8;
 }
 
-#preview-toggle {
+#trash-btn {
     margin-left: auto;
+    position: relative;
+    align-self: center;
+    flex-shrink: 0;
+    width: 28px;
+    height: 26px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: inherit;
+    color: #aaa;
+    background: transparent;
+    border: 1px solid #e8e8e8;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background 0.1s, color 0.1s, border-color 0.1s;
+    user-select: none;
+    padding: 0;
+}
+
+#trash-btn:hover {
+    background: #f0f0f0;
+    color: #555;
+    border-color: #ccc;
+}
+
+#trash-badge {
+    position: absolute;
+    top: -5px;
+    right: -5px;
+    background: rgb(126, 126, 126);
+    color: #fff;
+    font-size: 9px;
+    font-weight: 700;
+    line-height: 1;
+    padding: 2px 4px;
+    border-radius: 8px;
+    min-width: 14px;
+    text-align: center;
+    pointer-events: none;
+}
+
+#preview-toggle {
+    margin-left: 4px;
     margin-right: 4px;
     align-self: center;
     flex-shrink: 0;
@@ -305,6 +348,228 @@ body {
     overflow: hidden;
     text-overflow: ellipsis;
     white-space: nowrap;
+}
+
+/* ── Trash modal ─────────────────────────────────────────────────────────── */
+
+#trash-modal {
+    position: fixed;
+    inset: 0;
+    z-index: 300;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+#trash-modal[hidden] {
+    display: none;
+}
+
+.trash-overlay {
+    position: absolute;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.2);
+}
+
+.trash-panel {
+    position: relative;
+    background: #fff;
+    border-radius: 10px;
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.14);
+    width: 480px;
+    max-width: calc(100vw - 32px);
+    max-height: 70vh;
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+}
+
+.trash-header {
+    display: flex;
+    align-items: center;
+    padding: 16px 20px 14px;
+    border-bottom: 1px solid #f0f0f0;
+    flex-shrink: 0;
+}
+
+.trash-title {
+    font-size: 14px;
+    font-weight: 600;
+    color: #111;
+    flex: 1;
+}
+
+.trash-close-btn {
+    width: 24px;
+    height: 24px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: none;
+    background: transparent;
+    cursor: pointer;
+    color: #bbb;
+    font-size: 18px;
+    border-radius: 4px;
+    padding: 0;
+    font-family: inherit;
+    transition: background 0.1s, color 0.1s;
+}
+
+.trash-close-btn:hover {
+    background: #f0f0f0;
+    color: #555;
+}
+
+.trash-list {
+    flex: 1;
+    overflow-y: auto;
+    padding: 6px 0;
+}
+
+.trash-empty-msg {
+    text-align: center;
+    color: #ccc;
+    font-size: 13px;
+    padding: 36px 0;
+    margin: 0;
+}
+
+.trash-item {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 9px 20px;
+    transition: background 0.08s;
+}
+
+.trash-item:hover {
+    background: #fafafa;
+}
+
+.trash-item-info {
+    flex: 1;
+    min-width: 0;
+}
+
+.trash-item-name {
+    font-size: 13px;
+    font-weight: 500;
+    color: #222;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.trash-item-preview {
+    font-size: 12px;
+    color: #bbb;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    margin-top: 2px;
+}
+
+.trash-item-date {
+    font-size: 11px;
+    color: #ccc;
+    margin-top: 3px;
+}
+
+.trash-item-actions {
+    display: flex;
+    gap: 4px;
+    flex-shrink: 0;
+}
+
+.trash-restore-btn {
+    padding: 4px 10px;
+    font-size: 12px;
+    font-family: inherit;
+    color: #555;
+    background: transparent;
+    border: 1px solid #e0e0e0;
+    border-radius: 4px;
+    cursor: pointer;
+    white-space: nowrap;
+    transition: background 0.1s, border-color 0.1s;
+}
+
+.trash-restore-btn:hover {
+    background: #f0f0f0;
+    border-color: #ccc;
+}
+
+.trash-delete-btn {
+    width: 26px;
+    height: 26px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 16px;
+    font-family: inherit;
+    color: #ccc;
+    background: transparent;
+    border: 1px solid #e8e8e8;
+    border-radius: 4px;
+    cursor: pointer;
+    padding: 0;
+    transition: background 0.1s, color 0.1s, border-color 0.1s;
+}
+
+.trash-delete-btn:hover {
+    background: #fff0f0;
+    color: #c33;
+    border-color: #f0c0c0;
+}
+
+.trash-footer {
+    border-top: 1px solid #f0f0f0;
+    padding: 12px 20px;
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    gap: 8px;
+    flex-shrink: 0;
+}
+
+.trash-confirm-label {
+    font-size: 12px;
+    color: #888;
+    margin-right: auto;
+}
+
+.trash-empty-all-btn {
+    padding: 5px 12px;
+    font-size: 12px;
+    font-family: inherit;
+    color: #c33;
+    background: transparent;
+    border: 1px solid #f0c0c0;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background 0.1s, border-color 0.1s;
+}
+
+.trash-empty-all-btn:hover,
+.trash-empty-all-btn--confirm:hover {
+    background: #fff0f0;
+    border-color: #e08080;
+}
+
+.trash-delete-btn--confirm {
+    width: auto;
+    padding: 0 10px;
+    color: #c33;
+    border-color: #f0c0c0;
+    background: #fff0f0;
+    font-size: 12px;
+}
+
+.trash-delete-btn--confirm:hover {
+    background: #ffe0e0;
+    color: #a00;
+    border-color: #d08080;
 }
 
 @media (max-width: 768px) {

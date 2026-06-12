@@ -13,11 +13,34 @@
 <body>
     <div id="tab-bar">
         <div id="new-tab-btn" title="Nueva pestaña (Ctrl+T)">+</div>
+        <button id="trash-btn" title="Papelera">
+            <svg width="13" height="13" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
+                <polyline points="2.5,4.5 13.5,4.5"/>
+                <path d="M5.5 4.5V3A1 1 0 0 1 6.5 2h3a1 1 0 0 1 1 1v1.5"/>
+                <path d="M4 4.5l.75 9a.75.75 0 0 0 .75.75h5a.75.75 0 0 0 .75-.75L12 4.5"/>
+            </svg>
+            <span id="trash-badge" hidden></span>
+        </button>
         <button id="preview-toggle" title="Alternar vista previa (Ctrl+P)">Preview</button>
     </div>
     <textarea id="editor" spellcheck="false" placeholder="Escribe aquí..."></textarea>
     <div id="preview" hidden></div>
     <div id="snippet-menu" hidden></div>
+
+    <div id="trash-modal" hidden>
+        <div class="trash-overlay"></div>
+        <div class="trash-panel">
+            <div class="trash-header">
+                <span class="trash-title">Papelera</span>
+                <button class="trash-close-btn">×</button>
+            </div>
+            <div class="trash-list"></div>
+            <div class="trash-footer">
+                <button class="trash-empty-all-btn">Vaciar papelera</button>
+            </div>
+        </div>
+    </div>
+
     <script src="script.js"></script>
 </body>
 

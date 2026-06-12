@@ -1,6 +1,7 @@
 const TABS_KEY = 'notas_blancas_tabs';
 const ACTIVE_KEY = 'notas_blancas_active';
 const LEGACY_KEY = 'notas_blancas_editor';
+const TRASH_KEY = 'notas_blancas_trash';
 
 function uid() {
     return Date.now().toString(36) + Math.random().toString(36).slice(2);
@@ -68,7 +69,23 @@ function startRename(tabId) {
     input.addEventListener('click', e => e.stopPropagation());
 }
 
+function loadTrash() {
+    try {
+        const raw = localStorage.getItem(TRASH_KEY);
+        const parsed = raw ? JSON.parse(raw) : null;
+        if (Array.isArray(parsed)) return parsed;
+    } catch {}
+    return [];
+}
+
+function saveTrash() {
+    localStorage.setItem(TRASH_KEY, JSON.stringify(trash));
+}
+
 let tabs = loadTabs();
+let trash = loadTrash();
+let confirmingId = null;
+let confirmingEmpty = false;
 let activeId = localStorage.getItem(ACTIVE_KEY) || tabs[0].id;
 if (!tabs.find(t => t.id === activeId)) activeId = tabs[0].id;
 
@@ -78,6 +95,9 @@ const editor = document.getElementById('editor');
 const previewEl = document.getElementById('preview');
 const previewToggle = document.getElementById('preview-toggle');
 const snippetMenu = document.getElementById('snippet-menu');
+const trashBtn = document.getElementById('trash-btn');
+const trashBadge = document.getElementById('trash-badge');
+const trashModal = document.getElementById('trash-modal');
 
 function render() {
     tabBar.querySelectorAll('.tab').forEach(el => el.remove());
@@ -146,7 +166,10 @@ function newTab() {
 function closeTab(id) {
     if (tabs.length <= 1) return;
     const idx = tabs.findIndex(t => t.id === id);
-    tabs.splice(idx, 1);
+    const [removed] = tabs.splice(idx, 1);
+    trash.push({ id: removed.id, name: removed.name, content: removed.content, deletedAt: new Date().toISOString() });
+    saveTrash();
+    updateTrashBadge();
     if (activeId === id) {
         const next = tabs[Math.min(idx, tabs.length - 1)];
         activeId = next.id;
@@ -166,6 +189,10 @@ editor.addEventListener('input', () => {
 newTabBtn.addEventListener('click', newTab);
 
 document.addEventListener('keydown', e => {
+    if (e.key === 'Escape' && !trashModal.hidden) {
+        closeTrashModal();
+        return;
+    }
     if (e.ctrlKey && !e.shiftKey && e.key === 't') {
         e.preventDefault();
         newTab();
@@ -197,11 +224,182 @@ document.addEventListener('keydown', e => {
 const activeTab = tabs.find(t => t.id === activeId);
 editor.value = activeTab ? activeTab.content : '';
 render();
+updateTrashBadge();
 
 window.addEventListener('load', () => {
     editor.focus();
     editor.setSelectionRange(editor.value.length, editor.value.length);
 });
+
+// ── Papelera ─────────────────────────────────────────────────────────────────
+
+function updateTrashBadge() {
+    if (trash.length > 0) {
+        trashBadge.textContent = trash.length;
+        trashBadge.hidden = false;
+    } else {
+        trashBadge.hidden = true;
+    }
+}
+
+function openTrashModal() {
+    renderTrashModal();
+    trashModal.hidden = false;
+}
+
+function closeTrashModal() {
+    confirmingId = null;
+    confirmingEmpty = false;
+    trashModal.hidden = true;
+}
+
+function renderTrashModal() {
+    const list = trashModal.querySelector('.trash-list');
+    const footer = trashModal.querySelector('.trash-footer');
+    list.innerHTML = '';
+    footer.innerHTML = '';
+
+    if (trash.length === 0) {
+        confirmingId = null;
+        confirmingEmpty = false;
+        const msg = document.createElement('p');
+        msg.className = 'trash-empty-msg';
+        msg.textContent = 'La papelera está vacía';
+        list.appendChild(msg);
+        footer.hidden = true;
+        return;
+    }
+
+    footer.hidden = false;
+
+    // Footer: vaciar papelera con confirmación inline
+    if (confirmingEmpty) {
+        const label = document.createElement('span');
+        label.className = 'trash-confirm-label';
+        label.textContent = '¿Vaciar todo?';
+        const cancelBtn = document.createElement('button');
+        cancelBtn.className = 'trash-restore-btn';
+        cancelBtn.textContent = 'Cancelar';
+        cancelBtn.addEventListener('click', () => { confirmingEmpty = false; renderTrashModal(); });
+        const confirmBtn = document.createElement('button');
+        confirmBtn.className = 'trash-empty-all-btn trash-empty-all-btn--confirm';
+        confirmBtn.textContent = 'Sí, vaciar';
+        confirmBtn.addEventListener('click', emptyTrash);
+        footer.appendChild(label);
+        footer.appendChild(cancelBtn);
+        footer.appendChild(confirmBtn);
+    } else {
+        const emptyBtn = document.createElement('button');
+        emptyBtn.className = 'trash-empty-all-btn';
+        emptyBtn.textContent = 'Vaciar papelera';
+        emptyBtn.addEventListener('click', () => { confirmingEmpty = true; renderTrashModal(); });
+        footer.appendChild(emptyBtn);
+    }
+
+    [...trash].reverse().forEach(item => {
+        const row = document.createElement('div');
+        row.className = 'trash-item';
+
+        const info = document.createElement('div');
+        info.className = 'trash-item-info';
+
+        const name = document.createElement('div');
+        name.className = 'trash-item-name';
+        name.textContent = item.name || 'Sin título';
+
+        const preview = document.createElement('div');
+        preview.className = 'trash-item-preview';
+        preview.textContent = item.content.trim().slice(0, 60) || '(vacío)';
+
+        const date = document.createElement('div');
+        date.className = 'trash-item-date';
+        date.textContent = formatTrashDate(item.deletedAt);
+
+        info.appendChild(name);
+        info.appendChild(preview);
+        info.appendChild(date);
+
+        const actions = document.createElement('div');
+        actions.className = 'trash-item-actions';
+
+        if (confirmingId === item.id) {
+            // Confirmación inline para este item
+            const cancelBtn = document.createElement('button');
+            cancelBtn.className = 'trash-restore-btn';
+            cancelBtn.textContent = 'Cancelar';
+            cancelBtn.addEventListener('click', () => { confirmingId = null; renderTrashModal(); });
+            const confirmBtn = document.createElement('button');
+            confirmBtn.className = 'trash-delete-btn trash-delete-btn--confirm';
+            confirmBtn.textContent = 'Eliminar';
+            confirmBtn.title = 'Confirmar eliminación';
+            confirmBtn.addEventListener('click', () => deleteForever(item.id));
+            actions.appendChild(cancelBtn);
+            actions.appendChild(confirmBtn);
+        } else {
+            const restoreBtn = document.createElement('button');
+            restoreBtn.className = 'trash-restore-btn';
+            restoreBtn.textContent = 'Restaurar';
+            restoreBtn.addEventListener('click', () => restoreTab(item.id));
+            const deleteBtn = document.createElement('button');
+            deleteBtn.className = 'trash-delete-btn';
+            deleteBtn.textContent = '×';
+            deleteBtn.title = 'Eliminar definitivamente';
+            deleteBtn.addEventListener('click', () => { confirmingId = item.id; renderTrashModal(); });
+            actions.appendChild(restoreBtn);
+            actions.appendChild(deleteBtn);
+        }
+
+        row.appendChild(info);
+        row.appendChild(actions);
+        list.appendChild(row);
+    });
+}
+
+function formatTrashDate(iso) {
+    return new Date(iso).toLocaleString('es', {
+        day: 'numeric', month: 'short', hour: '2-digit', minute: '2-digit'
+    });
+}
+
+function restoreTab(id) {
+    const idx = trash.findIndex(t => t.id === id);
+    if (idx === -1) return;
+    const [item] = trash.splice(idx, 1);
+    saveTrash();
+    updateTrashBadge();
+
+    const cur = tabs.find(t => t.id === activeId);
+    if (cur) cur.content = editor.value;
+
+    tabs.push({ id: item.id, name: item.name, content: item.content });
+    activeId = item.id;
+    editor.value = item.content;
+    save();
+    render();
+    closeTrashModal();
+    editor.focus();
+}
+
+function deleteForever(id) {
+    trash = trash.filter(t => t.id !== id);
+    confirmingId = null;
+    saveTrash();
+    updateTrashBadge();
+    renderTrashModal();
+}
+
+function emptyTrash() {
+    trash = [];
+    confirmingId = null;
+    confirmingEmpty = false;
+    saveTrash();
+    updateTrashBadge();
+    closeTrashModal();
+}
+
+trashBtn.addEventListener('click', openTrashModal);
+trashModal.querySelector('.trash-overlay').addEventListener('click', closeTrashModal);
+trashModal.querySelector('.trash-close-btn').addEventListener('click', closeTrashModal);
 
 // ── Preview ──────────────────────────────────────────────────────────────────
 
